@@ -1,5 +1,6 @@
 package kr.jhta.bookstore;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Customer {
@@ -14,6 +15,7 @@ public class Customer {
 	
 	public Customer() {}
 
+	ArrayList<Integer> pointList = new ArrayList<>();
 
 	public Customer(String name, String id, String pwd, String tel, String email, Date regdate, int point) {
 		super();
@@ -25,7 +27,7 @@ public class Customer {
 		this.regdate = regdate;
 		this.point = point;
 	}
-
+	
 
 	public String getName() {
 		return name;
@@ -94,6 +96,19 @@ public class Customer {
 
 	public void setPoint(int point) {
 		this.point = point;
+		
+	}
+	
+	public void stactPoint(int point) {
+		
+		pointList.add(point);
+	}
+	public int getTotalPoint(){
+		int totalPoint = 0;
+		for (Integer points: pointList){
+			totalPoint += points;
+		}
+		return totalPoint;
 	}
 	
 	

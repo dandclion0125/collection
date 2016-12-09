@@ -1,7 +1,16 @@
 package kr.jhta.bookstore;
 
 import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+
+/**
+ * <P>도서 대여점의 주요 기능을 구현한 클래스
+ * 
+ * <P>도서 대여점의 회원가입, 로그인, 로그아웃, 대여, 반납, 조회 기능을 구현하였습니다.
+ * @author 홍길동
+ */
+
 import java.util.Date;
 import java.util.Scanner;
 
@@ -11,9 +20,16 @@ public class BookStore {
 	ArrayList<Book> bookList = new ArrayList<>();
 	ArrayList<Rental> rentalList = new ArrayList<>();
 	
+	
 	Scanner sc = new Scanner(System.in);
 
 	private Customer loginedUser = null;
+	
+	/**
+	 * <P>도서대여점의 기본 생성자
+	 * 
+	 *  <P>객체 생성시 기본적으로 고객 한명의 정보와 책 10권을 각각 등록한다.
+	 */
 	
 	// 가입 기능
 
@@ -50,6 +66,10 @@ public class BookStore {
 		}
 		return isExist;
 	}
+	
+	/**
+	 * 신규 고객을 등록합니다.
+	 */
 
 	// 회원등록
 	public void register() {
@@ -80,7 +100,10 @@ public class BookStore {
 		customerList.add(c);
 
 	}
-
+	
+	/**
+	 * 아이디와 비밀번호를 체크해서 로그인 여부를 확인합니다.
+	 */
 	// 로그인 기능
 	public void login() {
 		if(loginedUser != null) {
@@ -127,6 +150,9 @@ public class BookStore {
 
 	}
 	
+	/**
+	 * 로그인된 사용자의 정보를 삭제합니다.
+	 */
 	//로그아웃 기능
 	public void logout() {
 		if(loginedUser != null) {
@@ -135,6 +161,9 @@ public class BookStore {
 		}
 	}
 
+	/**
+	 * 도서 대여점이 보유중인 도서 목록을 화면에 표시합니다.
+	 */
 	// 도서정보조회하기
 	public void displayBooks() {
 		System.out.println("  번호\t제목\t\t\t가격");
@@ -144,6 +173,9 @@ public class BookStore {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	// 대여하기
 	public void rentalBook() {
 		
@@ -155,13 +187,17 @@ public class BookStore {
 		Rental rental = new Rental();
 		System.out.println("책번호를 입력하세요: ");
 		String chooseNo = sc.nextLine();
+		int point = 0;
 		for (Book book: bookList) {
 			if(chooseNo.equals(String.valueOf(book.getNo()))) {
 				System.out.println(book.getTitle()+"가 대여되었습니다.");
 				rental.setBook(book);
 				rental.setBack(false);
+				point = book.getPrice()/100;
 			}
 		}
+		System.out.println("적립될 포인트는 ["+point+"]입니다.");
+		loginedUser.stactPoint(point);
 		rental.setRentDate(new Date());
 		rental.setCustomer(loginedUser);
 		
@@ -214,6 +250,16 @@ public class BookStore {
 			System.out.printf("%4d %-20s %-7s %-4s\n",list.getBook().getNo(),list.getBook().getTitle(),sdf.format(list.getRentDate()),isBack);
 			
 		}
+	}
+	
+	/**
+	 * 대여시 부여된 포인트를 조회할 수 있다.
+	 */
+
+	public void displayPoint() {
+		int disPoint = loginedUser.getTotalPoint();
+		
+		System.out.println(loginedUser.getName()+"님의 적립포인트는 ["+disPoint+"]입니다.");
 	}
 	
 }

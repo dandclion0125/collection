@@ -31,5 +31,9 @@ public class PropertiesDemo1 {
 		
 		String value = prop.getProperty("mail.host");
 		System.out.println(value);
+		
+		// key(mail.port)에 대한 value값이 null인 경우 111이 대체된다.
+		String port = prop.getProperty("mail.port", "111");
+		System.out.println(port);
 	}
 }
